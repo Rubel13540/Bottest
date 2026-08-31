@@ -1,2 +1,0 @@
-[phases.setup]
-nixPkgs = ["python3", "playwright", "chromium", "nss", "freetype", "harfbuzz", "ca-certificates"]
