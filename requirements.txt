@@ -1,3 +1,0 @@
-playwright
-python-telegram-bot
-httpx
