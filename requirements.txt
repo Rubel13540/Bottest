@@ -1,4 +1,0 @@
-‎httpx
-‎playwright
-‎python-telegram-bot
-‎
