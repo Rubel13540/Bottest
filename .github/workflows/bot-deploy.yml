@@ -1,0 +1,31 @@
+name: Run Bot / Test
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run setup script
+      run: sudo npm run setup:linux
+
+    - name: Run Tests
+      run: npm test
+
+    - name: Build project
+      run: npm run build
+      
