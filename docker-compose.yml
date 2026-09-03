@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  bot:
+    build: .
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - MAX_SESSIONS=1
+      - PROXY_URL=socks5://127.0.0.1
+      - PROXY_PORT=9050
+      
