@@ -5,9 +5,8 @@ import sqlite3
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, CallbackQueryHandler, MessageHandler, filters
 
-# Railway এর Variables থেকে টোকেন নেওয়া হচ্ছে
+# Railway এর Variables থেকে টোকেন নেওয়া হচ্ছে
 TOKEN = os.getenv("BOT_TOKEN")
-PORT = int(os.environ.get('PORT', 8080))
 
 # লগিং সেটআপ
 logging.basicConfig(
@@ -75,7 +74,8 @@ if __name__ == '__main__':
             application.add_handler(CallbackQueryHandler(button_handler))
             application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
             
-            # Railway-এর জন্য Webhook সেটআপ (এটি ক্র্যাশ হওয়া বন্ধ করবে)
-            application.run_webhook(listen="0.0.0.0", port=PORT, url_path=TOKEN)
+            # Polling ব্যবহার করা হয়েছে যা ২৪/৭ রেসপন্স নিশ্চিত করবে
+            application.run_polling()
         except Exception as e:
             print(f"Error while starting bot: {e}")
+    
