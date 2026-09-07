@@ -7,8 +7,9 @@ from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, Callb
 
 # Railway এর Variables থেকে টোকেন নেওয়া হচ্ছে
 TOKEN = os.getenv("BOT_TOKEN")
+PORT = int(os.environ.get('PORT', 8080))
 
-# লগিং সেটআপ (এরর খুঁজে পেতে সহজ হবে)
+# লগিং সেটআপ
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
@@ -20,7 +21,6 @@ c = conn.cursor()
 c.execute('CREATE TABLE IF NOT EXISTS users (user_id INTEGER PRIMARY KEY, balance INTEGER)')
 conn.commit()
 
-# বর্তমান ক্যাপচা সংরক্ষণের জন্য ডিকশনারি
 current_captcha = {}
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -42,9 +42,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if query.data == 'earn':
         captcha_text = str(random.randint(10000, 99999))
         current_captcha[query.from_user.id] = captcha_text
-        
-        # এখানে আসল ইমেজ জেনারেট করার কোড বসাতে হবে (PIL লাইব্রেরি ব্যবহার করে)।
-        # আপাতত টেক্সট পাঠানো হচ্ছে।
         await query.message.reply_text(f"Type this captcha: {captcha_text}")
         
     elif query.data == 'bal':
@@ -78,6 +75,7 @@ if __name__ == '__main__':
             application.add_handler(CallbackQueryHandler(button_handler))
             application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
             
-            application.run_polling()
+            # Railway-এর জন্য Webhook সেটআপ (এটি ক্র্যাশ হওয়া বন্ধ করবে)
+            application.run_webhook(listen="0.0.0.0", port=PORT, url_path=TOKEN)
         except Exception as e:
             print(f"Error while starting bot: {e}")
