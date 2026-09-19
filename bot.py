@@ -28,7 +28,7 @@ from telegram.ext import (
 SMM_API_URL = "https://socialpanel.pro/api/v2"
 
 # এখানে আপনার নতুন SMM API Key বসান
-SMM_API_KEY = "YOUR_SMM_API_KEY_HERE"
+SMM_API_KEY = "bd48e602a5dfe6d1dbcb31102130458c"
 
 # এখানে আপনার Telegram Bot Token বসান
 TELEGRAM_BOT_TOKEN = os.getenv(
